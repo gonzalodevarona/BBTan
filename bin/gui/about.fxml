@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="131.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="About This Game" textFill="#4c57f5">
+         <font>
+            <Font name="Chalkduster" size="30.0" />
+         </font>
+      </Label>
+      <Label text="BBTan was built for Lab VI for Algorithms and Programming II class">
+         <font>
+            <Font name="Courier Bold Oblique" size="13.0" />
+         </font>
+      </Label>
+      <Label text="By Gonzalo &quot;mr gonza&quot; De Varona">
+         <font>
+            <Font name="Courier Bold Oblique" size="13.0" />
+         </font>
+      </Label>
+      <Label text="Copyright © 2019 Devco. All rights reserved.">
+         <font>
+            <Font name="Courier Bold Oblique" size="13.0" />
+         </font>
+      </Label>
+   </children>
+</VBox>

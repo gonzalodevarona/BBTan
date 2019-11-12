@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="mainVBox" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+                  <Menu fx:id="newGame" mnemonicParsing="false" text="New Game">
+                     <items>
+                        <MenuItem fx:id="easy" mnemonicParsing="false" text="Easy" />
+                        <MenuItem fx:id="intermedium" mnemonicParsing="false" text="Intermedium" />
+                        <MenuItem fx:id="hard" mnemonicParsing="false" text="Hard" />
+                     </items>
+                  </Menu>
+            <MenuItem fx:id="loadGame" mnemonicParsing="false" text="Load Game..." />
+            <MenuItem fx:id="saveGame" mnemonicParsing="false" text="Save Game" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem fx:id="exit" mnemonicParsing="false" text="EXIT" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="View">
+          <items>
+            <MenuItem fx:id="hiScores" mnemonicParsing="false" text="High Scores" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem fx:id="aboutGame" mnemonicParsing="false" onAction="#showGameInfo" text="About the Game" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS" />
+  </children>
+</VBox>
