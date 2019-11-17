@@ -25,14 +25,18 @@ public class Game {
 	public final static String SCORES = "resources/scores.priv";
 	
 	private int level;
+	private int bounces;
 	
 	private ArrayList<Ball> balls;
 	private Score[] scores;
 
-	public Game(int level) {
+	public Game(int level) throws IOException, ClassNotFoundException {
 		super();
 		this.level = level;
 		scores = new Score[10];
+		balls = new ArrayList<Ball>();
+		loadScores();
+		
 	}
 
 	public int getLevel() {
@@ -63,6 +67,19 @@ public class Game {
 		this.scores = scores;
 	}
 	
+	
+	public int getBounces() {
+		return bounces;
+	}
+	
+	public void setBounces(int bounces) {
+		this.bounces = bounces;
+	}
+	
+	public void addBounce() {
+		++bounces;
+	}
+
 	public void saveScores() throws FileNotFoundException, IOException {
 		File file = new File(SCORES);
 		
@@ -78,12 +95,12 @@ public class Game {
 		
 		File file = new File(SCORES);
 		
-		if (file.exists()) {
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-			this.scores = (Score[]) ois.readObject();
-			ois.close();
-			done = true;
-		}
+//		if (file.exists()) {
+//			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+//			this.scores = (Score[]) ois.readObject();
+//			ois.close();
+//			done = true;
+//		}
 		return done;
 	}
 	
@@ -104,6 +121,32 @@ public class Game {
 		
 
 	}
+	
+	public void countBounces() {
+		int all = 0;
+		
+		for (int i = 0; i < balls.size(); i++) {
+			all += balls.get(i).getBounce();
+		}
+		
+		setBounces(all);
+	}
+	
+	
+	public String dataSaving() {
+		String all = "";
+		
+		for (int i = 0; i < balls.size(); i++) {
+			all += balls.get(i).toString()+"\n";
+		}
+		
+		return all;
+	}
+	
+	public Score getAScore(int i) {
+		return scores[i];
+	}
+	
 
 	
 	

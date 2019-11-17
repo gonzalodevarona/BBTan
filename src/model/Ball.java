@@ -108,6 +108,11 @@ public class Ball {
 		this.stopped = stopped;
 	}
 	
+	public String toString() {
+		
+		return ""+getRadius()+" "+getPosX()+" "+getPosY()+" "+getWaitTime()+" "+getDirection()+" "+getBounce()+" "+isStopped();
+	}
+	
 	
 	
 	
