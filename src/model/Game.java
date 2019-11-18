@@ -35,7 +35,7 @@ public class Game {
 		this.level = level;
 		scores = new Score[10];
 		balls = new ArrayList<Ball>();
-		loadScores();
+		//loadScores();
 		
 	}
 
@@ -95,12 +95,12 @@ public class Game {
 		
 		File file = new File(SCORES);
 		
-//		if (file.exists()) {
-//			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-//			this.scores = (Score[]) ois.readObject();
-//			ois.close();
-//			done = true;
-//		}
+		if (file.exists()) {
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+			this.scores = (Score[]) ois.readObject();
+			ois.close();
+			done = true;
+		}
 		return done;
 	}
 	

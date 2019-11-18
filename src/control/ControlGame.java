@@ -13,7 +13,9 @@ package control;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
@@ -41,7 +43,7 @@ import threads.ThreadBall;
 
 public class ControlGame implements Initializable{
 	
-	public final static String LEVELS = "/resources/Levels";
+	public final static String LEVELS = "resources/Levels";
 
 	
 	@FXML
@@ -88,7 +90,9 @@ public class ControlGame implements Initializable{
 	
 	
 	
-
+	public ControlGame(Stage stage) {
+		this.stage = stage;
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -142,7 +146,7 @@ public class ControlGame implements Initializable{
 		fileChooser.setTitle("File reader for BBTan");
 		File selected = fileChooser.showOpenDialog(getStage());
 		
-		if (selected != null) {
+		if (selected != null && selected.getCanonicalPath().contains(".txt")) {
 
 			FileReader reader = new FileReader(selected);
 			BufferedReader bufferR = new BufferedReader(reader);
@@ -163,7 +167,7 @@ public class ControlGame implements Initializable{
 					
 					words = line.split(" ");
 					
-					System.out.println(words[0]);
+					
 					
 					int radius = Integer.parseInt(words[0]);
 					int posX = Integer.parseInt(words[1]);
@@ -182,7 +186,7 @@ public class ControlGame implements Initializable{
 					game.addBall(ball);
 					ThreadBall tb = new ThreadBall(ball, getCanvas().getGraphicsContext2D(), getStage());
 					tb.start();
-					stage.show();
+//					stage.show();
 				}
 				
 				
@@ -198,6 +202,13 @@ public class ControlGame implements Initializable{
 			
 			bufferR.close();
 			reader.close();
+		} else {
+			VBox vbox = new VBox();
+			Label l = new Label("ERROR: Invalid file, only .txt files are accepted. \n Watch it NEXT TIME");
+			vbox.getChildren().add(l);
+			Stage mssg = new Stage();
+			mssg.setScene(new Scene(vbox));
+			mssg.show();
 		}
 
 
@@ -236,20 +247,31 @@ public class ControlGame implements Initializable{
 	
 	public void saveGame(ActionEvent e) throws IOException {
 		String all = "#Level\n";
-		all += getGame().getLevel()+"\n";
-		all += "#radius posX posY waiTime direction bounce stopped\n";
-		all += getGame().dataSaving();
-		GregorianCalendar gc = new GregorianCalendar();
-		String myDate = ""+gc.getTimeInMillis();
-		System.out.println(myDate);
+		if (getGame() != null) {
+			all += getGame().getLevel()+"\n";
+			all += "#radius posX posY waiTime direction bounce stopped\n";
+			all += getGame().dataSaving();
+			GregorianCalendar gc = new GregorianCalendar();
+			String myDate = ""+gc.getTimeInMillis();
+			String root = LEVELS+"/"+myDate+".txt";
+							 
+			FileOutputStream fos = new FileOutputStream(root);
+			 
+			fos.write(all.getBytes());
+			fos.close();
+			
+			
+			exit(e);
+		} else {
+			VBox vbox = new VBox();
+			Label l = new Label("ERROR: No game was saved due to there is not a match going on. \n Watch it NEXT TIME");
+			vbox.getChildren().add(l);
+			Stage mssg = new Stage();
+			mssg.setScene(new Scene(vbox));
+			mssg.show();
+		}
 		
-		File newMatch = new File(LEVELS+"/"+myDate);
-		newMatch.createNewFile();
-		PrintWriter pr = new PrintWriter(newMatch);
-		pr.println(all);
-		pr.close();
 		
-		exit(e);
 			
 	}
 	

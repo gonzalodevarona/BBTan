@@ -17,25 +17,32 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application{
 	
 	private ControlGame controlGame;
 	
+	public Main(){
+		
+	}
+	
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/gui/field.fxml"));
-			
-			controlGame = new ControlGame();
+			Main m = new Main();
+			FXMLLoader root = FXMLLoader.load(Main.class.getResource("/gui/field.fxml"));
+//			FXMLLoader root = FXMLLoader.load(getClass().getResource("/gui/field.fxml"));
+			controlGame = root.getController();
 			controlGame.setStage(primaryStage);
 			
-			
+			Pane p = (Pane) root.load();
+		
 			//primaryStage.setMaximized(true);
 			primaryStage.setTitle("BBTan");
-			primaryStage.setScene(new Scene(root));
+			primaryStage.setScene(new Scene(p));
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
