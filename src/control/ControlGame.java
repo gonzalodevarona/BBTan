@@ -15,9 +15,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.URL;
 import java.util.GregorianCalendar;
 import java.util.ResourceBundle;
@@ -38,7 +36,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import model.*;
-import threads.ThreadBall;
+import threads.*;
 
 
 public class ControlGame implements Initializable{
@@ -88,12 +86,6 @@ public class ControlGame implements Initializable{
 	
 	private Game game;
 	
-	
-	
-	public ControlGame(Stage stage) {
-		this.stage = stage;
-	}
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -141,7 +133,8 @@ public class ControlGame implements Initializable{
 	}
 	
 	public void loadGame (ActionEvent e) throws IOException, ClassNotFoundException {
-		
+		canvas.setHeight(stage.getHeight());
+		canvas.setWidth(stage.getWidth());
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("File reader for BBTan");
 		File selected = fileChooser.showOpenDialog(getStage());
@@ -159,7 +152,9 @@ public class ControlGame implements Initializable{
 			game = new Game(level);
 			String[] words = new String[7];
 			line = bufferR.readLine();
-		
+			
+			ThreadUpdate tu = new ThreadUpdate(getCanvas().getGraphicsContext2D(), getStage());
+			
 			while (line != null) {
 				
 						
@@ -184,9 +179,11 @@ public class ControlGame implements Initializable{
 					Ball ball = new Ball(radius, posX, posY, waitTime, direction, bounces, stopped);
 					
 					game.addBall(ball);
+					
 					ThreadBall tb = new ThreadBall(ball, getCanvas().getGraphicsContext2D(), getStage());
+					tu.addBall(ball);
 					tb.start();
-//					stage.show();
+					stage.show();
 				}
 				
 				
@@ -194,6 +191,9 @@ public class ControlGame implements Initializable{
 			}
 			
 			game.countBounces();
+			
+			
+			tu.start();
 			
 		
 			
@@ -277,26 +277,28 @@ public class ControlGame implements Initializable{
 	
 	public void showHighScores(ActionEvent e) {
 		try {
-			
-			VBox vbox = new VBox();
-			GridPane gp = new GridPane();
-			
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 2; j++) {
-					Label l = new Label();
-					if (j == 0) {
-						l.setText(game.getAScore(i).getName());
-					} else {
-						l.setText(""+game.getAScore(i).getScore());
+			if (game != null) {
+				VBox vbox = new VBox();
+				GridPane gp = new GridPane();
+				
+				for (int i = 0; i < 10; i++) {
+					for (int j = 0; j < 2; j++) {
+						Label l = new Label();
+						if (j == 0) {
+							l.setText(game.getAScore(i).getName());
+						} else {
+							l.setText(""+game.getAScore(i).getScore());
+						}
+						gp.add(l, j, i);
 					}
-					gp.add(l, j, i);
 				}
+				
+				Stage stage = new Stage();
+				stage.setScene(new Scene(vbox));
+				stage.setResizable(false);
+				stage.show();
 			}
 			
-			Stage stage = new Stage();
-			stage.setScene(new Scene(vbox));
-			stage.setResizable(false);
-			stage.show();
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();

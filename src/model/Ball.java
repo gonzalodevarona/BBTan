@@ -17,6 +17,7 @@ public class Ball {
 	public final static String DOWN = "DOWN";
 	public final static String LEFT = "LEFT";
 	public final static String RIGHT = "RIGHT";
+	public final static int MOVE = 10;
 	
 	private int radius;
 	private int posX;
@@ -111,6 +112,60 @@ public class Ball {
 	public String toString() {
 		
 		return ""+getRadius()+" "+getPosX()+" "+getPosY()+" "+getWaitTime()+" "+getDirection()+" "+getBounce()+" "+isStopped();
+	}
+
+
+	public void changePosition(double x, double y) {
+		
+		switch (getDirection()) {
+		case UP:
+			if(getPosY()+MOVE+getRadius()>y) {
+				setDirection(DOWN);
+				int newY = (int) (y - getRadius());
+				setPosY(newY);
+			}else {
+				setPosY(getPosY()+MOVE);					
+			}
+			
+			break;
+			
+		case DOWN:
+			if(getPosY()+MOVE+getRadius()<y) {
+				setDirection(UP);
+				int newY = (int) (y + getRadius());
+				setPosY(newY);
+			}else {
+				setPosY(getPosY()-MOVE);					
+			}
+			
+			break;
+			
+		case LEFT:
+			if(getPosX()+MOVE+getRadius()>x) {
+				setDirection(RIGHT);
+				int newX = (int) (x + getRadius());
+				setPosX(newX);
+			}else {
+				setPosX(getPosX()+MOVE);					
+			}
+			
+			break;
+			
+		case RIGHT:
+			if(getPosX()+MOVE+getRadius()<x) {
+				setDirection(LEFT);
+				int newX = (int) (x - getRadius());
+				setPosX(newX);
+			}else {
+				setPosX(getPosX()-MOVE);					
+			}
+			
+			break;
+
+		default:
+			break;
+		}
+		
 	}
 	
 	

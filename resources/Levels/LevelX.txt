@@ -1,0 +1,5 @@
+#Level 
+0
+#radius posX posY waiTime direction bounce stopped 
+40 50 90 10 LEFT 0 false
+70 120 400 12 RIGHT 0 false

@@ -5,7 +5,7 @@
 * DEPARTAMENTO TIC - ALGORTIMOS Y PROGRAMACIÓN II
 * LAB VI
 * @AUTHOR: GONZALO DE VARONA <gonzalo.de1@correo.icesi.edu.co>
-* @LAST UPDATE DATE: 10 NOVEMBER 2019
+* @LAST UPDATE DATE: 21 NOVEMBER 2019
 * ˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜
 */
 
@@ -24,25 +24,20 @@ public class Main extends Application{
 	
 	private ControlGame controlGame;
 	
-	public Main(){
-		
-	}
-	
-
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		try {
-			Main m = new Main();
-			FXMLLoader root = FXMLLoader.load(Main.class.getResource("/gui/field.fxml"));
-//			FXMLLoader root = FXMLLoader.load(getClass().getResource("/gui/field.fxml"));
-			controlGame = root.getController();
-			controlGame.setStage(primaryStage);
 			
-			Pane p = (Pane) root.load();
-		
-			//primaryStage.setMaximized(true);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/field.fxml"));
+			Parent root = loader.load();
+			
+			
+			controlGame = loader.getController();
+			controlGame.setStage(primaryStage);
+					
+			primaryStage.setMaximized(true);
 			primaryStage.setTitle("BBTan");
-			primaryStage.setScene(new Scene(p));
+			primaryStage.setScene(new Scene(root));
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();

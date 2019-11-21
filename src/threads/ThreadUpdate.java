@@ -5,90 +5,89 @@
 * DEPARTAMENTO TIC - ALGORTIMOS Y PROGRAMACIÓN II
 * LAB VI
 * @AUTHOR: GONZALO DE VARONA <gonzalo.de1@correo.icesi.edu.co>
-* @LAST UPDATE DATE: 14 NOVEMBER 2019
+* @LAST UPDATE DATE: 21 NOVEMBER 2019
 * ˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜˜
 */
 
 package threads;
 
-import java.io.File;
+import java.util.ArrayList;
 
-import control.*;
+import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import model.*;
+import model.Ball;
 
-public class ThreadBall extends Thread{
+public class ThreadUpdate extends Thread{
 	
-	
-	private Ball ball;
 	private GraphicsContext gc;
 	private Stage stage;
+	private ArrayList<Ball> balls;
 	
 	
-	public ThreadBall(Ball ball, GraphicsContext gc, Stage stage) {
+	
+	public ThreadUpdate(GraphicsContext gc, Stage stage) {
 		super();
-		this.ball = ball;
 		this.gc = gc;
 		this.stage = stage;
+		balls = new ArrayList<Ball>();
 	}
-
-
-	public Ball getBall() {
-		return ball;
-	}
-
-
-	public void setBall(Ball ball) {
-		this.ball = ball;
-	}
-
+	
+	
 	public GraphicsContext getGc() {
 		return gc;
 	}
 
 	public void setGc(GraphicsContext gc) {
 		this.gc = gc;
-		
 	}
-	
 
 	public Stage getStage() {
 		return stage;
 	}
 
-
 	public void setStage(Stage stage) {
 		this.stage = stage;
 	}
-
-
-	public void stopThread(boolean needClose) {
 	
-		Thread.currentThread().interrupt();
-		ball.setStopped(true);
-		
+
+	public ArrayList<Ball> getBalls() {
+		return balls;
 	}
 
 
-	@Override
+	public void setBalls(ArrayList<Ball> balls) {
+		this.balls = balls;
+	}
+	
+	public void addBall(Ball b) {
+		balls.add(b);
+	}
+
+
 	public void run() {
-		double x = gc.getCanvas().getWidth();
-		double y = gc.getCanvas().getHeight();
 		
-		while(getBall().isStopped()) {
-			getBall().changePosition(x , y);
+		Ball ballInMatter = null;
+		
+		for (int i = 0; i < balls.size(); i++) {
+			ballInMatter = balls.get(i);
+			
+			if (ballInMatter.isStopped() == false) {
+				gc.fillOval(ballInMatter.getPosX(), ballInMatter.getPosX(), ballInMatter.getRadius(), ballInMatter.getRadius());
+			}
+			
+			if (i == balls.size()-1) {
+				i = 0;
+			}
 			try {
-				Thread.sleep(getBall().getWaitTime());
+				Thread.sleep(5);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
 		}
 		
+		
 	}
-	
-	
+
 } //end of class
